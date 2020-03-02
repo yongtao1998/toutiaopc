@@ -65,6 +65,7 @@ export default {
       // 2. promise
       this.$refs.loginForm.validate().then(() => {
         console.log('校验通过')
+        // this.$axios.get('')
       }).catch(() => console.log('校验失败')
       )
     }
