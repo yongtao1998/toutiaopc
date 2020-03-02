@@ -8,9 +8,9 @@ import axios from 'axios'
 // 全局注册 element-ui框架
 Vue.use(ElementUI)
 // 配置 默认url地址
-axios.default.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 // 全局使用 axios
-Vue.propetype.$axios = axios
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 new Vue({

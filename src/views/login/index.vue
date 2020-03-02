@@ -64,10 +64,20 @@ export default {
       // })
       // 2. promise
       this.$refs.loginForm.validate().then(() => {
-        console.log('校验通过')
-        // this.$axios.get('')
-      }).catch(() => console.log('校验失败')
-      )
+        // console.log('校验通过')
+        this.$axios({
+          url: '/authorizations',
+          data: this.loginForm,
+          method: 'post'
+        }).then((result) => {
+          console.log(result.data)
+          window.localStorage.setItem('usre-item', result.data.data.token)
+          this.$router.push('/home')
+        }).catch((error) => {
+          console.log(error)
+          this.$message.error('手机号或验证码输入错误')
+        })
+      })
     }
   }
 }
