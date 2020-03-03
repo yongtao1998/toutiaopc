@@ -9,7 +9,7 @@
     <el-container>
         <!-- 右侧 头部 -->
         <el-header>
-            <h1>顶部栏</h1>
+          <layout-header></layout-header>
         </el-header>
         <!-- 主体内容 -->
         <el-main>
