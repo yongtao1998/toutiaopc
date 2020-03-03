@@ -24,6 +24,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     // 如果不是去主页 放过
+
     next()
   }
 })
