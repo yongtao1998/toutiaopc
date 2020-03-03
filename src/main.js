@@ -2,11 +2,13 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
+import Components from '@/components'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.less'
 import axios from 'axios'
 // 全局注册 element-ui框架
 Vue.use(ElementUI)
+Vue.use(Components)
 // 配置 默认url地址
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 // 全局使用 axios

@@ -1,14 +1,19 @@
 <template>
+<!-- 最外层容器 -->
 <el-container>
-    <el-aside>
-        <h1>侧边栏</h1>
+    <!-- 左侧导航 -->
+    <el-aside style="width:230px">
+      <layout-aside></layout-aside>
     </el-aside>
+    <!-- 右侧 再次嵌套 el-container -->
     <el-container>
+        <!-- 右侧 头部 -->
         <el-header>
             <h1>顶部栏</h1>
         </el-header>
+        <!-- 主体内容 -->
         <el-main>
-            <h1>主要区域容器</h1>
+         <router-view></router-view>
         </el-main>
     </el-container>
 </el-container>

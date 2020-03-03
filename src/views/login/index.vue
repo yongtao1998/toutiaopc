@@ -85,7 +85,7 @@ export default {
 
 <style lang="less" scoped>
 // scoped：此页面才会起作用(范围内)
-// scoped 会自动生成一个data-v....
+// scoped 会自动在页面生成一个data-v-xxx
 .login{
   background-image: url('../../assets/img/beijing2.jpg') ;
   height: 100vh;
