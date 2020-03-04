@@ -3,10 +3,10 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import '@/permission'
+import axios from '@/utils/request'
 import Components from '@/components'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.less'
-import axios from 'axios'
 
 // 全局注册 element-ui框架
 Vue.use(ElementUI)

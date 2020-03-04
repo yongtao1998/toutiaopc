@@ -4,7 +4,7 @@
 <!-- 左侧列 -->
 <el-col class='left' :span="12">
   <i class="el-icon-s-fold"></i>
-  <span>今日头条后台管理系统</span>
+  <span style="margin-left:2px">今日头条后台管理系统</span>
 </el-col>
 <!-- 右侧列 -->
 <el-col class="right" :span="12">
@@ -38,7 +38,6 @@ export default {
   methods: {
     clickMenu (command) {
       if (command === 'info') {
-
       } else if (command === 'git') {
         window.location.href = 'https://github.com/yongtao1998/yongtao1998.github.io'
       } else {
@@ -48,15 +47,11 @@ export default {
     }
   },
   created () {
-    const token = localStorage.getItem('user-token') // 从缓存中取token
     //   获取用户的个人信息
     this.$axios({
-      url: '/user/profile', // 请求地址
-      headers: {
-        Authorization: `Bearer ${token}` // 格式要求 Bearer +token
-      }
+      url: '/user/profile' // 请求地址
     }).then(result => {
-      this.userInfo = result.data.data
+      this.userInfo = result.data
     })
   }
 }
