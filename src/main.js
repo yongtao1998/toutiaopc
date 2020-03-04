@@ -11,14 +11,11 @@ import '@/styles/index.less'
 // 全局注册 element-ui框架
 Vue.use(ElementUI)
 Vue.use(Components)
-
+// Vue.use(ec)
+Vue.config.productionTip = false
 // 配置 默认url地址
-axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
-
 // 全局使用 axios
 Vue.prototype.$axios = axios
-
-Vue.config.productionTip = false
 
 new Vue({
   router,
