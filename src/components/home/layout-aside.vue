@@ -1,5 +1,5 @@
 <template>
-<div class="layout-aside">
+<div class="layout-aside" >
     <div class="title">
         <img src="../../assets/img/logo.png" alt="">
     </div>
@@ -52,7 +52,7 @@ export default {
 
 <style lang='less' scoped>
 .layout-aside{
-    background-color: #323745;
+    background-color: #2e2f32;
     width: 230px;
     height: 100vh;
     .title{

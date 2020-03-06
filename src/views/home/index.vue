@@ -2,7 +2,7 @@
 <!-- 最外层容器 -->
 <el-container>
     <!-- 左侧导航 -->
-    <el-aside style="width:230px">
+    <el-aside style="width:230px;background:#2e2f32" >
       <layout-aside></layout-aside>
     </el-aside>
     <!-- 右侧 再次嵌套 el-container -->
