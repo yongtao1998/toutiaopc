@@ -98,7 +98,7 @@ export default {
       this.$axios({
         url: '/user/images', // 请求地址
         params: {
-          collect: this.activeName === 'collect', // activeName === 'all' 获取所有的素材  activeName = 'collect' 获取收藏素材
+          collect: this.activName === 'collect', // activeName === 'all' 获取所有的素材  activeName = 'collect' 获取收藏素材
           page: this.page.currentPage, // 取页码变量中的值
           per_page: this.page.pageSize // 获取每页数量
 
