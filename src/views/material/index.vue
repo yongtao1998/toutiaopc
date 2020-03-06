@@ -14,7 +14,7 @@
     </el-row>
       <!-- el-tabs tab栏 -->
       <!-- v-model 绑定的是当前激活的页签 -->
-      <el-tabs v-model="activName" type="card">
+      <el-tabs v-model="activName"  @tab-click="changeTab">
           <el-tab-pane label="全部素材" name="all">
               <div class="img-list">
                   <el-card class="img-card" v-for="item in list" :key="item.id">
@@ -27,27 +27,29 @@
               </div>
           </el-tab-pane>
 
-          <el-tab-pane label="收藏素材" name="collect" @tab-click="changeTab">
+          <el-tab-pane label="收藏素材" name="collect" >
                 <!-- 内容 -->
                   <div class='img-list'>
                     <!-- 采用v-for对list数据进行循环 -->
                     <el-card class='img-card' v-for="item in list" :key="item.id">
                         <!-- 放置图片 并且赋值 图片地址-->
                         <img :src="item.url" alt="">
-                    <el-row class='operate' type='flex' align="middle" justify="space-around">
-                        <i class='el-icon-star-on'></i>
-                        <i class='el-icon-delete-solid'></i>
-                    </el-row>
                     </el-card>
                 </div>
           </el-tab-pane>
       </el-tabs>
 
       <!-- 分页器 -->
+      <!--
+        toatl 总条数
+        current-page 当前页
+        page-size 每页多少条
+      -->
     <el-row type="flex" justify="center" style="80px" align="middle">
         <el-pagination background
         layout="prev,pager,next"
         :total="page.total"
+        :page-size="page.pageSize"
         :current-page="page.currentPage"
         @current-change='changePage'
         ></el-pagination>
@@ -65,11 +67,17 @@ export default {
       page: {
         currentPage: 1, // 默认第一页
         total: 0, // 当前总数
-        pageSize: 5 // 每页多少条
+        pageSize: 8 // 每页多少条
       }
     }
   },
   methods: {
+    // 页数切换
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.getMaterial()
+    },
+    // 上传素材
     uploading (params) {
       // params.file 要上传的文件
       const data = new FormData()
@@ -85,12 +93,13 @@ export default {
         this.$message.error('上传失败')
       })
     },
+    // 获取素材
     getMaterial () {
       this.$axios({
         url: '/user/images', // 请求地址
         params: {
-          collect: this.activeName === 'collect', //  这个位置应该变活 根据当前的页签变活   activeName === 'all' 获取所有的素材  activeName = 'collect' 获取收藏素材
-          page: this.page.currentPage, // 取页码变量中的值 因为只要页码变量一变 获取的数据跟着变
+          collect: this.activeName === 'collect', // activeName === 'all' 获取所有的素材  activeName = 'collect' 获取收藏素材
+          page: this.page.currentPage, // 取页码变量中的值
           per_page: this.page.pageSize // 获取每页数量
 
         } // get参数 也就是query参数
@@ -101,13 +110,10 @@ export default {
         this.page.total = result.data.total_count // 总数  全部素材的总数  收藏素材的总数 总数 跟随 当前页签变化而变化
       })
     },
-    // 页数切换
-    changePage (newPage) {
-      this.page.currentPage = newPage
-      this.getMaterial()
-    },
+    // 切换后清除 页码
     changeTab () {
       this.page.currentPage = 1
+      // alert(this.activName)
       this.getMaterial()
     }
   },
