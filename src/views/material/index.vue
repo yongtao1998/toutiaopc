@@ -17,8 +17,9 @@
       <el-tabs v-model="activName"  @tab-click="changeTab">
           <el-tab-pane label="全部素材" name="all">
               <div class="img-list">
-                  <el-card class="img-card" v-for="item in list" :key="item.id">
-                      <img :src="item.url" alt="">
+                  <el-card class="img-card" v-for="(item,index) in list" :key="item.id">
+                      <img :src="item.url" alt="" @click="selectImg(index)">
+                    <!-- 图片放大功能 -->
                        <el-row class='operate' type='flex' align="middle" justify="space-around">
                          <i class='el-icon-star-on' @click="collectOrCancel(item)" :style="{color: item.is_collected ? 'red' : 'black'}"></i>
                          <i class='el-icon-delete-solid' @click="deleteOrCancel(item)"></i>
@@ -33,7 +34,10 @@
                     <!-- 采用v-for对list数据进行循环 -->
                     <el-card class='img-card' v-for="item in list" :key="item.id">
                         <!-- 放置图片 并且赋值 图片地址-->
-                        <img :src="item.url" alt="">
+                       <el-popover placement="bottom" trigger="click"> <!--trigger属性值：hover、click、focus 和 manual-->
+                          <img :src="item.url" style="height:200px">
+                          <img slot="reference" :src="item.url" style="width:100%;height:100%;cursor:pointer" />
+                  </el-popover>
                     </el-card>
                 </div>
           </el-tab-pane>
@@ -55,6 +59,17 @@
         ></el-pagination>
     </el-row>
 
+<!-- el-dialog组件  -->
+<el-dialog @opened='openEnd' :visible="dialogVisible" @close="dialogVisible = false">
+
+  <!-- 走马灯组件 -->
+  <el-carousel ref="myCarousel" indicator-position="outside" height="400px">
+    <el-carousel-item v-for="item in list" :key="item.id">
+      <!-- 放置图片 -->
+      <img  style="width:100%;height:100%" :src="item.url" alt="">
+    </el-carousel-item>
+  </el-carousel>
+</el-dialog>
   </el-card>
 </template>
 
@@ -68,10 +83,21 @@ export default {
         currentPage: 1, // 默认第一页
         total: 0, // 当前总数
         pageSize: 8 // 每页多少条
-      }
+      },
+      dialogVisible: false, // 控制显示隐藏
+      clickIndex: -1 // 点击的索引
     }
   },
   methods: {
+    openEnd () {
+      this.$refs.myCarousel.setActiveItem(this.clickIndex)
+    },
+    // 图片放大
+    selectImg (index) {
+      this.clickIndex = index
+      this.dialogVisible = true
+    },
+
     // 收藏和取消收藏
     collectOrCancel (row) {
       this.$axios({
