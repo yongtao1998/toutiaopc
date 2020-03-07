@@ -86,11 +86,28 @@ export default {
         this.$message.error('操作失败')
       })
     },
+
+    // 删除素材
+    deleteOrCancel (item) {
+      this.$confirm('您确定要删除该图片吗', '提示').then(() => {
+        this.$axios({
+          url: `/user/images/${item.id}`,
+          method: 'delete'
+        }).then(() => {
+          this.$message.success('删除成功')
+          this.getMaterial()
+        }).catch(() => {
+          this.$message.error('操作失败')
+        })
+      })
+    },
+
     // 页数切换
     changePage (newPage) {
       this.page.currentPage = newPage
       this.getMaterial()
     },
+
     // 上传素材
     uploading (params) {
       // params.file 要上传的文件
@@ -107,6 +124,7 @@ export default {
         this.$message.error('上传失败')
       })
     },
+
     // 获取素材
     getMaterial () {
       this.$axios({
@@ -124,6 +142,7 @@ export default {
         this.page.total = result.data.total_count // 总数  全部素材的总数  收藏素材的总数 总数 跟随 当前页签变化而变化
       })
     },
+
     // 切换后清除 页码
     changeTab () {
       this.page.currentPage = 1
