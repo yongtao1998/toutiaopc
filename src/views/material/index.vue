@@ -20,8 +20,8 @@
                   <el-card class="img-card" v-for="item in list" :key="item.id">
                       <img :src="item.url" alt="">
                        <el-row class='operate' type='flex' align="middle" justify="space-around">
-                         <i class='el-icon-star-on'></i>
-                         <i class='el-icon-delete-solid'></i>
+                         <i class='el-icon-star-on' @click="collectOrCancel(item)" :style="{color: item.is_collected ? 'red' : 'black'}"></i>
+                         <i class='el-icon-delete-solid' @click="deleteOrCancel(item)"></i>
                       </el-row>
                   </el-card>
               </div>
@@ -72,6 +72,20 @@ export default {
     }
   },
   methods: {
+    // 收藏和取消收藏
+    collectOrCancel (row) {
+      this.$axios({
+        url: `/user/images/${row.id}`,
+        method: 'put',
+        data: {
+          collect: !row.is_collected
+        }
+      }).then(() => {
+        this.getMaterial()
+      }).catch(() => {
+        this.$message.error('操作失败')
+      })
+    },
     // 页数切换
     changePage (newPage) {
       this.page.currentPage = newPage
