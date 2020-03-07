@@ -34,7 +34,7 @@
                     <!-- 采用v-for对list数据进行循环 -->
                     <el-card class='img-card' v-for="item in list" :key="item.id">
                         <!-- 放置图片 并且赋值 图片地址-->
-                       <el-popover placement="bottom" trigger="click"> <!--trigger属性值：hover、click、focus 和 manual-->
+                       <el-popover placement="top-start" trigger="click" > <!--trigger属性值：hover、click、focus 和 manual-->
                           <img :src="item.url" style="height:200px">
                           <img slot="reference" :src="item.url" style="width:100%;height:100%;cursor:pointer" />
                   </el-popover>
