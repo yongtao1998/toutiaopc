@@ -205,6 +205,7 @@ export default {
               height: 30px;
               i  {
                   font-size:20px;
+                  cursor: pointer;
               }
           }
       }

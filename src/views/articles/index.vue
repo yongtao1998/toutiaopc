@@ -7,7 +7,7 @@
   </bread-crumb>
 
 <!-- 搜索工具栏 -->
-<el-form style="padding-left:0">
+<el-form style="padding-left:0px">
   <el-form-item label="文章状态 :">
     <el-radio-group v-model="searchForm.status">
       <el-radio :label="5">全部</el-radio>
@@ -23,13 +23,13 @@
     </el-select>
   </el-form-item>
   <el-form-item label="日期范围">
-    <el-date-picker type="datetimerange" v-model="searchForm.dateRange"></el-date-picker>
+    <el-date-picker type="daterange" value-format="yyyy-MM-dd" v-model="searchForm.dateRange"></el-date-picker>
   </el-form-item>
 </el-form>
 
 <!-- 文章主体 -->
 <el-row class="total" type="flex" align="middle">
-  <span>共找到000条符合条件的数据</span>
+  <span>共找到 {{page.total}} 条符合条件的数据</span>
 </el-row>
 
 <!-- 列表内容 -->
@@ -52,6 +52,16 @@
   </div>
 </div>
 
+<!-- 分页 -->
+<el-row type="flex" justify="center" style="height:80px" align="middle">
+  <el-pagination
+    :current-page="page.currentPage"
+    :page-size="page.pageSize"
+    :total="page.total"
+    @current-change='changePage'
+    background layout='prev,pager,next'
+  ></el-pagination>
+  </el-row>
  </el-card>
 </template>
 
@@ -59,6 +69,13 @@
 export default {
   data () {
     return {
+      // 分页
+      page: {
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
+      // 表单数据对象
       searchForm: {
         status: 5,
         channel_id: '',
@@ -99,7 +116,7 @@ export default {
     }
   },
   methods: {
-    // 获取频道数据
+    // 获取全部频道数据
     getChannels () {
       this.$axios({
         url: 'channels'
@@ -107,14 +124,45 @@ export default {
         this.channels = result.data.channels
       })
     },
-    getArticles () {
+
+    // 改变页码事件
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      this.changeCondition()
+    },
+    // 改变搜索条件
+    changeCondition () {
+      const params = {
+        page: this.page.currentPage,
+        per_page: this.page.pageSize,
+        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+        channel_id: this.searchForm.dateRange && this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+        end_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+
+      }
+      this.getArticles(params)
+    }, // 获取 文章列表
+    getArticles (params) {
       this.$axios({
-        url: '/articles'
+        url: '/articles',
+        params
       }).then(result => {
         // debugger
         this.list = result.data.results
-        // this.count = result.data.total_count
+        this.page.total = result.data.total_count
       })
+    }
+  },
+  // 监听 表单中的数据变化 watch监听对象的深度检测
+  watch: {
+    searchForm: {
+      // 深度检测
+      deep: true,
+      // 数据发生改变 就会触发
+      handler () {
+        this.page.currentPage = 1
+        this.changeCondition()
+      }
     }
   },
 
