@@ -29,6 +29,9 @@ const routes = [
       }, {
         path: '/home/articles',
         component: () => import('@/views/articles')
+      }, {
+        path: '/home/publish/:articleId?',
+        component: () => import('@/views/publish')
       }
     ]
   },

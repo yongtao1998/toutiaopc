@@ -47,8 +47,9 @@
 
   <!-- 右侧 -->
   <div class="right">
-      <span><i class="el-icon-edit"></i> 修改</span>
-      <span><i class="el-icon-delete"></i> 删除</span>
+      <!-- 编程式导航 跳转到编辑页面-->
+      <span @click="$router.push(`/home/publish/${item.id.toString()}`)"><i class="el-icon-edit"></i> 修改</span>
+      <span @click="delMater(item.id.toString())"><i class="el-icon-delete"></i> 删除</span>
   </div>
 </div>
 
@@ -116,6 +117,20 @@ export default {
     }
   },
   methods: {
+    // 删除素材
+    delMater (id) {
+      this.$confirm('您确定要删除吗', '提示').then(() => {
+        this.$axios({
+          url: `/articles/${id}`,
+          method: 'delete'
+        }).then(() => {
+          // 带着条件和页码去从新加载
+          this.changeCondition()
+        }).catch(() => {
+          this.$message.error('删除失败')
+        })
+      })
+    },
     // 获取全部频道数据
     getChannels () {
       this.$axios({
@@ -138,7 +153,6 @@ export default {
         status: this.searchForm.status === 5 ? null : this.searchForm.status,
         channel_id: this.searchForm.dateRange && this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
         end_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
-
       }
       this.getArticles(params)
     }, // 获取 文章列表
