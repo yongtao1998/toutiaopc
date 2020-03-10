@@ -4,6 +4,8 @@ import LayoutAside from './home/layout-aside'
 import LayoutHeader from './home/layout-header'
 import BreadCrumb from './common/bread-crumb'
 import VueQuillEditor from 'vue-quill-editor'
+import CoverImage from './publish/cover-image.vue'
+import SelectImage from './publish/select-image.vue'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -15,5 +17,7 @@ export default {
     Vue.component('layout-header', LayoutHeader)
     Vue.component('bread-crumb', BreadCrumb) // 注册一个面包屑组件
     Vue.use(VueQuillEditor)
+    Vue.component('cover-image', CoverImage)
+    Vue.component('select-image', SelectImage)
   }
 }

@@ -15,13 +15,18 @@
             ></quill-editor>
           </el-form-item>
           <el-form-item label="封面" prop="cover"  style="margin-top:120px;">
-              <el-radio-group v-model="publishForm.cover.type">
+              <el-radio-group v-model="publishForm.cover.type" @change="changeType">
                   <el-radio :label="1">单图</el-radio>
                   <el-radio :label="3">三图</el-radio>
                   <el-radio :label="0">无图</el-radio>
                   <el-radio :label="-1">自动</el-radio>
               </el-radio-group>
           </el-form-item>
+
+          <!-- 封面组件 -->
+          <!-- 把封面组件图片传给子组件 -->
+          <cover-image @selectTwoImg="receiveImg"  :list="publishForm.cover.images"></cover-image>
+
           <el-form-item label="频道" prop="channel_id">
               <el-select placeholder="请选择频道" v-model="publishForm.channel_id">
                   <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -62,6 +67,11 @@ export default {
     }
   },
   methods: {
+    // 接收cover-image传递过来的数据
+    receiveImg (url, index) {
+      // 更新 images数组
+      this.publishForm.cover.images.splice(index, 1, url)
+    },
     //   根据id获取文章详情
     getArticleById (id) {
       this.$axios({
@@ -100,6 +110,16 @@ export default {
           this.$message.error('操作失败')
         })
       })
+    },
+    // 改变类型事件
+    changeType () {
+      if (this.publishForm.cover.type === 1) {
+        this.publishForm.cover.images = ['']
+      } else if (this.publishForm.cover.type === 3) {
+        this.publishForm.cover.images = ['', '', '']
+      } else {
+        this.publishForm.cover.images = []
+      }
     }
   },
   watch: {

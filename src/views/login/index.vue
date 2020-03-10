@@ -37,12 +37,12 @@ export default {
       },
       loginRules: {
         mobile: [
-          { required: true, message: '请输入手机号' },
-          { pattern: /^[1][3-9][0-9]{9}$/, message: '您输入的手机号格式不正确' }
+          { required: true, message: '请输入手机号', trigger: 'blur' },
+          { pattern: /^[1][3-9][0-9]{9}$/, message: '您输入的手机号格式不正确', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '验证码不能为空' },
-          { pattern: /^\d{6}$/, message: '验证码应该是6位数字' }
+          { required: true, message: '验证码不能为空', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '验证码应该是6位数字', trigger: 'blur' }
         ],
         checked: [{
           validator (rule, value, callback) {
