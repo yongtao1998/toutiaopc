@@ -2,12 +2,12 @@
  <el-card>
  <!-- 账号信息 -->
     <bread-crumb slot="header">
-        <tmelalte slot="titles">
+        <template slot="titles">
             账户信息
-        </tmelalte>
+        </template>
     </bread-crumb>
     <!-- 表单容器 -->
-    <el-form ref="myForm" :model="formDate" :rules="rules" label-width="100px">
+    <el-form ref="myForm" :model="formData" :rules="rules" label-width="100px">
     <el-form-item prop="name" label="用户名">
         <el-input v-model="formData.name" style="width:30%"></el-input>
     </el-form-item>
@@ -38,6 +38,7 @@
 
 <script>
 export default {
+  name: '',
   data () {
     return {
       formData: {
