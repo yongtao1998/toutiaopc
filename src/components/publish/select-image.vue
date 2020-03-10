@@ -76,6 +76,7 @@ export default {
       }).then(result => {
         // 成功了 接口会返回给我们一个上传成功之后的图片地址
         // 拿到了返回的url地址 往外传
+        // debugger
         this.$emit('selectOneImg', result.data.url) // 将url参数传出去
       }).catch(() => {
         this.$message.error('上传素材失败')

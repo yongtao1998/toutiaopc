@@ -32,13 +32,13 @@
     <!-- 头像 -->
    <el-upload action="" :http-request="uploadImg" :show-file-list="false">
         <img class='head-upload' :src="formData.photo ? formData.photo : defaultImg" alt="">
-      </el-upload>
+    </el-upload>
  </el-card>
 </template>
 
 <script>
 export default {
-  name: '',
+  // name: '',
   data () {
     return {
       formData: {
@@ -68,25 +68,27 @@ export default {
       this.$axios({
         url: '/user/profile'
       }).then(result => {
+        // debugger
         this.formData = result.data
       })
     },
     // 上传图片
     uploadImg (params) {
       const data = new FormData()
-      data.append('images', params.file)
+      data.append('photo', params.file)
       this.$axios({
         url: '/user/photo',
         method: 'patch',
         data
       }).then(result => {
+        // debugger
         this.formData.photo = result.data.photo
       })
     },
     saveUser () {
       this.$refs.myForm.validate().then(() => {
         this.$axios({
-          url: 'user/profile',
+          url: '/user/profile',
           method: 'patch',
           data: this.formData
         }).then(() => {

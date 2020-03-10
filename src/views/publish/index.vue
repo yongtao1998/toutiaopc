@@ -77,6 +77,7 @@ export default {
       this.$axios({
         url: `/articles/${id}`
       }).then((result) => {
+        // debugger
         this.publishForm = result.data
       })
     },

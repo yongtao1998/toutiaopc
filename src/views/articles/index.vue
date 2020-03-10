@@ -79,7 +79,7 @@ export default {
       // 表单数据对象
       searchForm: {
         status: 5,
-        channel_id: '',
+        channel_id: null,
         dateRange: []
       },
       channels: [],
@@ -134,8 +134,9 @@ export default {
     // 获取全部频道数据
     getChannels () {
       this.$axios({
-        url: 'channels'
+        url: '/channels'
       }).then(result => {
+        // debugger
         this.channels = result.data.channels
       })
     },
@@ -151,7 +152,8 @@ export default {
         page: this.page.currentPage,
         per_page: this.page.pageSize,
         status: this.searchForm.status === 5 ? null : this.searchForm.status,
-        channel_id: this.searchForm.dateRange && this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+        channel_id: this.searchForm.channel_id, // 就是表单的数据
+        begin_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
         end_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
       }
       this.getArticles(params)
