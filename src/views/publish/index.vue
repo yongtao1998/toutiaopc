@@ -102,6 +102,31 @@ export default {
       })
     }
   },
+  watch: {
+    // 监听路由初始化
+    // 页面初始化的时候 会把$route放在data里面
+    $route: function (to, from) {
+      console.log(to)
+
+      // to 新路由地址对象
+      // from 旧的路由地址对象
+      if (to.params.articleId) {
+        // id存在 获取文章数据
+        this.getArticleById(to.params.articleId)
+      } else {
+        this.publishForm = {
+          title: '',
+          content: '',
+          cover: {
+          // -1自动 0 无图 1 单图 3 三图
+            type: 0,
+            images: []
+          },
+          channel_id: null
+        }
+      }
+    }
+  },
   created () {
     this.getChannels()
     const { articleId } = this.$route.params
