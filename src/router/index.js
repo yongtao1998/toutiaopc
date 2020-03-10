@@ -11,6 +11,10 @@ const routes = [
     redirect: '/home'
   },
   {
+    path: '*',
+    component: () => import('@/views/404.vue')
+  },
+  {
     path: '/home',
     name: 'Home',
     component: Home,
