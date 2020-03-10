@@ -2,6 +2,8 @@
  *  处理路由权限
  */
 import router from '@/router'
+import progress from 'nprogress'
+import 'nprogress/nprogress.css'
 // 注册全局前置守卫
 // 回调函数会发生在路由发生改变之前
 // next有三种情景
@@ -12,6 +14,8 @@ import router from '@/router'
 // from:往哪去
 // next：必须执行
 router.beforeEach(function (to, from, next) {
+  // 加载进度条
+  progress.start()
   // 1. 先判断请求的地址是否以 /home开头
   if (to.path.startsWith('/home')) {
     // 2. 再判断是否登录 并取回token
@@ -26,4 +30,8 @@ router.beforeEach(function (to, from, next) {
 
     next()
   }
+})
+router.afterEach(() => {
+  // 关闭进度条
+  progress.done()
 })
