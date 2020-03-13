@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import eventBus from '@/utils/eventBus'
 export default {
   data () {
     return {
@@ -44,14 +45,20 @@ export default {
         window.localStorage.removeItem('user-token')
         this.$router.push('/login')
       }
+    },
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile' // 请求地址
+      }).then(result => {
+        this.userInfo = result.data
+      })
     }
   },
   created () {
     //   获取用户的个人信息
-    this.$axios({
-      url: '/user/profile' // 请求地址
-    }).then(result => {
-      this.userInfo = result.data
+    this.getUserInfo()
+    eventBus.$on('updateUser', () => {
+      this.getUserInfo()
     })
   }
 }

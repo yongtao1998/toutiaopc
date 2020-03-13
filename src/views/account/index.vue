@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import eventBus from '@/utils/eventBus'
 export default {
   // name: '',
   data () {
@@ -83,6 +84,8 @@ export default {
       }).then(result => {
         // debugger
         this.formData.photo = result.data.photo
+        // 广播 一个消息
+        eventBus.$emit('updateUser')
       })
     },
     saveUser () {
@@ -93,6 +96,7 @@ export default {
           data: this.formData
         }).then(() => {
           this.$message.success('保存成功')
+          eventBus.$emit('updateUser')
         }).catch(() => {
           this.$message.error('保存失败')
         })
